@@ -1,2 +1,3 @@
-# zeebe-message-correlation
-A demonstration of message correlation in Zeebe
+# Zeebe Message Correlation
+
+A demonstration of message correlation in Zeebe.
