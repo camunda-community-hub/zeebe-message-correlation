@@ -85,7 +85,7 @@ Now the token is at the message catch event, waiting for a message to be correla
 ts-node send-message.ts
 ```
 
-- Refresh Simple Monitr, and you see that the workflow has run to completion:
+- Refresh Simple Monitor, and you see that the workflow has run to completion:
 ![](img/completed.png)
 
 And the "Message Subscriptions" tab reports that the message was correlated:
