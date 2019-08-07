@@ -26,9 +26,7 @@ A crucial piece here is the _Subscription Correlation Key_. In a running instanc
     name: "Money Collected",
     variables: {
       paymentStatus: "paid"
-    },
-    timeToLive: 600000
-  });
+    });
 ```
 
  The concrete value of the message `correlationKey` is matched against running workflow instances, by comparing the supplied value against the `orderId` variable of running instances subscribed to this message. This is the relationship established by setting the correlationKey to `orderId` in the message catch event in the BPMN.
@@ -95,6 +93,21 @@ The "Message Subscriptions" tab now reports that the message was correlated:
 ## Message Buffering
 
 Messages are buffered on the broker, so your external systems can emit messages before your process arrives at the catch event. The amount of time that a message is buffered is configured when publishing the message from the client library.
+
+For example, to send a message that is buffered for 10 minutes with the JavaScript client:
+
+```typescript
+  zbc.publishMessage({
+    correlationKey: "345",
+    name: "Money Collected",
+    variables: {
+      paymentStatus: "paid"
+    },
+    timeToLive: 600000
+  });
+```
+
+Here is how you can see it in action:
 
 - Keep the workers running.
 - Publish the message:
