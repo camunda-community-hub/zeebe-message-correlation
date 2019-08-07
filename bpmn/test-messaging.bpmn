@@ -15,7 +15,7 @@
     <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_0ms19mg" name="Money Collected">
       <bpmn:incoming>SequenceFlow_0qahp11</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_18ju85e</bpmn:outgoing>
-      <bpmn:messageEventDefinition />
+      <bpmn:messageEventDefinition messageRef="Message_1c22xeu" />
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0qahp11" sourceRef="ServiceTask_14eftf6" targetRef="IntermediateCatchEvent_0ms19mg" />
     <bpmn:serviceTask id="ServiceTask_0yjmtn3" name="Fetch Items">
@@ -31,6 +31,11 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1nlu0s9" sourceRef="ServiceTask_0yjmtn3" targetRef="EndEvent_1kerzct" />
   </bpmn:process>
+  <bpmn:message id="Message_1c22xeu" name="Money Collected">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="orderId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test-messaging">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">

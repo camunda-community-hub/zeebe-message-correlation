@@ -9,7 +9,7 @@ async function main() {
     variables: {
       paymentStatus: "paid"
     },
-    timeToLive: 5000
+    timeToLive: 600000
   });
 }
 
