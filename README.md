@@ -68,10 +68,6 @@ This means that 0 tokens are waiting at the start event, and 1 has passed throug
 ![](img/variables.png)
 You can see that this workflow instance has the variable `orderId` set to the value 345.
 
-- Take a look at the "Message Subscriptions" tab:
-![](img/message-subscriptions.png)
-You can see that the broker has opened a message subscription for this workflow instance with the concrete value of the `orderId` 345.
-
 - Now start the workers:
 ```
 ts-node workers.ts
@@ -80,15 +76,19 @@ ts-node workers.ts
 ![](img/wait-on-message.png)
 Now the token is at the message catch event, waiting for a message to be correlated.
 
+- Take a look at the "Message Subscriptions" tab:
+![](img/message-subscriptions.png)
+You can see that the broker has opened a message subscription for this workflow instance with the concrete value of the `orderId` 345. This was created when the token entered the message catch event.
+
 - Now send the message, in another terminal:
 ```
 ts-node send-message.ts
 ```
 
-- Refresh Simple Monitor, and you see that the workflow has run to completion:
+- Refresh Simple Monitor, and you see that the message has been correlated and the workflow has run to completion:
 ![](img/completed.png)
 
-And the "Message Subscriptions" tab reports that the message was correlated:
+The "Message Subscriptions" tab now reports that the message was correlated:
 
 ![](img/correlated.png)
 
