@@ -31,7 +31,7 @@ A crucial piece here is the _Subscription Correlation Key_. In a running instanc
 
  The concrete value of the message `correlationKey` is matched against running workflow instances, by comparing the supplied value against the `orderId` variable of running instances subscribed to this message. This is the relationship established by setting the correlationKey to `orderId` in the message catch event in the BPMN.
 
- ## Running the demonstration
+## Running the demonstration
 
  - Clone this repository.
 
@@ -60,7 +60,8 @@ await zbc.createWorkflowInstance("test-messaging", {
  - Click on the workflow instance. You will see the current state of the workflow:
 
  ![](img/workflow-state.png)
-This means that 0 tokens are waiting at the start event, and 1 has passed through; and 1 token is waiting at the "Collect Money" task, and 0 have passed through.
+
+The numbers above the BPMN symbols indicate that no tokens are waiting at the start event, and one has passed through; and one token is waiting at the "Collect Money" task, and none have passed through.
 
 - Take a look at the "Variables" tab at the bottom of the screen. (If you don't see it you are probably looking at the workflow, rather than the instance. In that case, drill down into the instance):
 ![](img/variables.png)
@@ -141,3 +142,9 @@ A couple of common gotchas:
  If you need a boundary message event correlated on a value that is modified somewhere in your process, then put the boundary message event in a subprocess after the task that sets the variable. The message subscription for the boundary message event will be opened when the token enters the subprocess, with the current variable value.
 
  ![](img/like-this.png)
+
+## Summary
+
+Message Correlation is a powerful feature in Zeebe. Knowing how messages are correlated, and how and when the message subscription is created is important to design systems that perform as expected.
+
+And Simple Monitor is a useful tool for inspecting the behavior of a Zeebe system to figure out what is happening during development.
