@@ -4,15 +4,15 @@ Message correlation is a powerful feature in Zeebe. It allows you to target a ru
 
 This tutorial uses the JavaScript client, but it serves to illustrate message correlation concepts that are applicable to all language clients.
 
-We will use [Simple Monitor](https://github.com/zeebe-io/zeebe-simple-monitor) to inspect the running workflow state. Simple Monitor is a community-supported tool, and is not designed to be used in production - however, it useful during development.
+We will use [Simple Monitor](https://github.com/camunda-community-hub/zeebe-simple-monitor) to inspect the running workflow state. Simple Monitor is a community-supported tool, and is not designed to be used in production - however, it useful during development.
 
 ## Workflow
 
-Here is the basic example from [the Zeebe documentation](https://docs.zeebe.io/reference/message-correlation.html):
+Here is the basic example from [the Camunda Cloud documentation](https://docs.camunda.io/docs/product-manuals/concepts/messages):
 
 ![](img/workflow.png)
 
-Use the [Zeebe Modeler](https://github.com/zeebe-io/zeebe-modeler) to open the [test-messaging](bpmn/test-messaging.bpmn) file in this project.
+Use the [Camunda Modeler](https://camunda.com/download/modeler/) to open the [test-messaging](bpmn/test-messaging.bpmn) file in this project.
 
 Click on the intermediate message catch event to see how it is configured:
 
@@ -40,7 +40,7 @@ A crucial piece here is the _Subscription Correlation Key_. In a running instanc
  npm i && npm i -g ts-node typescript
  ```
 
- - In another terminal start the Zeebe Broker using the `simple-monitor` profile from the [zeebe-docker-compose](https://github.com/zeebe-io/zeebe-docker-compose) repo.
+ - In another terminal start the Zeebe Broker using the `simple-monitor` profile from the [zeebe-docker-compose](https://github.com/camunda-community-hub/zeebe-docker-compose) repo.
 
  - Deploy the workflow and start an instance:
  ```
@@ -48,7 +48,7 @@ A crucial piece here is the _Subscription Correlation Key_. In a running instanc
  ```
 This starts a workflow instance with the `orderId` set to 345:
  ```typescript
-await zbc.createWorkflowInstance("test-messaging", {
+await zbc.createProcessInstance("test-messaging", {
       orderId: "345",
       customerId: "110110",
       paymentStatus: "unpaid"

@@ -3,20 +3,22 @@ import { ZBClient } from "zeebe-node";
 const zbc = new ZBClient("localhost");
 
 async function main() {
-  zbc.createWorker(
-    "collect-money-worker",
-    "collect-money",
-    (job, complete, w) => {
+  zbc.createWorker({
+    taskHandler: (job, _, w) => {
       w.log("Collecting money");
       w.log(job.variables);
-      complete.success();
-    }
-  );
+      return job.complete();
+    },
+    taskType: "collect-money",
+  });
 
-  zbc.createWorker("fetch-items-worker", "fetch-items", (job, complete, w) => {
-    w.log("Fetching Items");
-    w.log(job.variables);
-    complete.success();
+  zbc.createWorker({
+    taskType: "fetch-items", 
+    taskHandler: (job, _, w) => {
+      w.log("Fetching Items");
+      w.log(job.variables);
+      return job.complete();
+    }
   });
 }
 
