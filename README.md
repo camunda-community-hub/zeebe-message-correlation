@@ -6,6 +6,8 @@ This tutorial uses the JavaScript client, but it serves to illustrate message co
 
 We will use [Simple Monitor](https://github.com/camunda-community-hub/zeebe-simple-monitor) to inspect the running workflow state. Simple Monitor is a community-supported tool, and is not designed to be used in production - however, it useful during development.
 
+If you are doing this exercise on Camunda Cloud, remember to set the environment variables with your client credentials in each terminal window; and you will use Operate in your Camunda Cloud cluster, rather than Simple Monitor.
+
 ## Workflow
 
 Here is the basic example from [the Camunda Cloud documentation](https://docs.camunda.io/docs/product-manuals/concepts/messages):

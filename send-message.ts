@@ -1,6 +1,6 @@
 import { ZBClient } from "zeebe-node";
 
-const zbc = new ZBClient("localhost");
+const zbc = new ZBClient();
 
 async function main() {
   zbc.publishMessage({
