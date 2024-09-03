@@ -3,9 +3,6 @@
   "version": "2.0.0",
   "description": "Message correlation is a powerful feature in Zeebe. It allows you to target a running workflow with a state update from an external system asynchronously.",
   "main": "index.js",
-  "dependencies": {
-    "zeebe-node": "2.4.0"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jwulf/zeebe-message-correlation/issues"
   },
-  "homepage": "https://github.com/jwulf/zeebe-message-correlation#readme"
+  "homepage": "https://github.com/jwulf/zeebe-message-correlation#readme",
+  "dependencies": {
+    "@camunda8/sdk": "^8.6.12"
+  }
 }

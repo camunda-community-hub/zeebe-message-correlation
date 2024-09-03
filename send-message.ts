@@ -1,6 +1,7 @@
-import { ZBClient } from "zeebe-node";
+import { Camunda8 } from "@camunda8/sdk";
 
-const zbc = new ZBClient();
+const camunda = new Camunda8()
+const zbc = camunda.getZeebeGrpcApiClient();
 
 async function main() {
   zbc.publishMessage({
