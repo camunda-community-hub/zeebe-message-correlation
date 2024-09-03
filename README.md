@@ -4,11 +4,11 @@ Message correlation is a powerful feature in Zeebe. It allows you to target a ru
 
 This tutorial uses the JavaScript client, but it serves to illustrate message correlation concepts that are applicable to all language clients.
 
-If you are doing this exercise on Camunda Cloud, remember to set the environment variables with your client credentials in each terminal window; and you will use Operate in your Camunda Cloud cluster, rather than Simple Monitor.
+If you are doing this exercise on Camunda SaaS, remember to set the environment variables with your client credentials in each terminal window; and you will use Operate in your Camunda SaaS cluster, rather than Simple Monitor.
 
 ## Workflow
 
-Here is the basic example from [the Camunda Cloud](https://docs.camunda.io/docs/product-manuals/concepts/messages):
+Here is the basic example from [the Camunda 8 docs](https://docs.camunda.io/docs/product-manuals/concepts/messages):
 
 ![](img/workflow.png)
 
