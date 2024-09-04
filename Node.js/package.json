@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jwulf/zeebe-message-correlation#readme",
   "dependencies": {
-    "@camunda8/sdk": "^8.6.12"
+    "@camunda8/sdk": "^8.6.12",
+    "dotenv": "^16.4.5"
   }
 }

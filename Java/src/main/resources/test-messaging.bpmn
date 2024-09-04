@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0jua8l2" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.0">
+  <bpmn:process id="test-messaging" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Order placed">
+      <bpmn:outgoing>SequenceFlow_14q7q5o</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_14eftf6" name="Collect Money">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="collect-money" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_14q7q5o</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0qahp11</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_14q7q5o" sourceRef="StartEvent_1" targetRef="ServiceTask_14eftf6" />
+    <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_0ms19mg" name="Money Collected">
+      <bpmn:incoming>SequenceFlow_0qahp11</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18ju85e</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_1c22xeu" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0qahp11" sourceRef="ServiceTask_14eftf6" targetRef="IntermediateCatchEvent_0ms19mg" />
+    <bpmn:serviceTask id="ServiceTask_0yjmtn3" name="Fetch Items">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="fetch-items" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_18ju85e</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1nlu0s9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_18ju85e" sourceRef="IntermediateCatchEvent_0ms19mg" targetRef="ServiceTask_0yjmtn3" />
+    <bpmn:endEvent id="EndEvent_1kerzct" name="Order fulfilled">
+      <bpmn:incoming>SequenceFlow_1nlu0s9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1nlu0s9" sourceRef="ServiceTask_0yjmtn3" targetRef="EndEvent_1kerzct" />
+  </bpmn:process>
+  <bpmn:message id="Message_1c22xeu" name="Money Collected">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=orderId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test-messaging">
+      <bpmndi:BPMNEdge id="SequenceFlow_1nlu0s9_di" bpmnElement="SequenceFlow_1nlu0s9">
+        <di:waypoint x="601" y="121" />
+        <di:waypoint x="651" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_18ju85e_di" bpmnElement="SequenceFlow_18ju85e">
+        <di:waypoint x="451" y="121" />
+        <di:waypoint x="501" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qahp11_di" bpmnElement="SequenceFlow_0qahp11">
+        <di:waypoint x="365" y="121" />
+        <di:waypoint x="415" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_14q7q5o_di" bpmnElement="SequenceFlow_14q7q5o">
+        <di:waypoint x="215" y="121" />
+        <di:waypoint x="265" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="146" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_14eftf6_di" bpmnElement="ServiceTask_14eftf6">
+        <dc:Bounds x="265" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_0ms19mg_di" bpmnElement="IntermediateCatchEvent_0ms19mg">
+        <dc:Bounds x="415" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="392" y="146" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0yjmtn3_di" bpmnElement="ServiceTask_0yjmtn3">
+        <dc:Bounds x="501" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1kerzct_di" bpmnElement="EndEvent_1kerzct">
+        <dc:Bounds x="651" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="636" y="146" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
