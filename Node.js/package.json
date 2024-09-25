@@ -4,7 +4,12 @@
   "description": "Message correlation is a powerful feature in Zeebe. It allows you to target a running workflow with a state update from an external system asynchronously.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rest:start": "node --experimental-strip-types rest/start.ts",
+    "rest:correlate": "node --experimental-strip-types rest/correlate-message.ts",
+    "rest:publish": "node --experimental-strip-types rest/publish-message.ts",
+    "grpc:start": "node --experimental-strip-types grpc/start.ts",
+    "grpc:publish": "node --experimental-strip-types grpc/publish-message.ts"
   },
   "repository": {
     "type": "git",
@@ -16,9 +21,11 @@
   "bugs": {
     "url": "https://github.com/jwulf/zeebe-message-correlation/issues"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "homepage": "https://github.com/jwulf/zeebe-message-correlation#readme",
   "dependencies": {
-    "@camunda8/sdk": "^8.6.12",
-    "dotenv": "^16.4.5"
+    "@camunda8/sdk": "^8.6.12"
   }
 }

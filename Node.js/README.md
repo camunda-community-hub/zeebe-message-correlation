@@ -6,6 +6,8 @@ This tutorial uses the JavaScript client, but it serves to illustrate message co
 
 If you are doing this exercise on Camunda SaaS, remember to set the environment variables with your client credentials in each terminal window; and you will use Operate in your Camunda SaaS cluster, rather than Simple Monitor.
 
+Note: the Rest API is only available from Camunda 8.6.0. For versions prior to 8.6.0, use the gRPC API.
+
 ## Workflow
 
 Here is the basic example from [the Camunda 8 docs](https://docs.camunda.io/docs/product-manuals/concepts/messages):
@@ -18,10 +20,10 @@ Click on the intermediate message catch event to see how it is configured:
 
 ![](../img/message-properties.png)
 
-A crucial piece here is the _Subscription Correlation Key_. In a running instance of this workflow, an incoming "_Money Collected_" message will have a `correlationKey` property:
+A crucial piece here is the _Subscription Correlation Key_. In a running instance of this process, an incoming "_Money Collected_" message will have a `correlationKey` property:
 
 ```typescript
-  zbc.publishMessage({
+  zbc.correlateMessage({
     correlationKey: "345",
     name: "Money Collected",
     variables: {
@@ -29,57 +31,75 @@ A crucial piece here is the _Subscription Correlation Key_. In a running instanc
     });
 ```
 
- The value of the message `correlationKey` is matched against running workflow instances, by comparing the supplied value against the `orderId` variable of running instances subscribed to this message. This is the relationship established by setting the Subscription Correlation Key to `orderId` in the message catch event in the BPMN.
+ The value of the message `correlationKey` is matched against running process instances, by comparing the supplied value against the `orderId` variable of running instances subscribed to this message. This is the relationship established by setting the Subscription Correlation Key to `orderId` in the message catch event in the BPMN.
 
 ## Running the demonstration
 
  - Clone this repository.
 
+ - Make sure you have Node.js > 22 installed.
+
  - Install dependencies:
  ```
- npm i && npm i -g ts-node typescript
+ npm i
  ```
 
- - In another terminal start Camunda 8 using [](https://github.com/camunda/camunda-platform).
+ - In another terminal start Camunda 8 using [](https://github.com/camunda/camunda-platform) (or used Hosted).
 
- - Deploy the workflow and start an instance:
- ```
- ts-node start-workflow.ts
- ```
+ - Set the credentials in the environment for your Camunda 8 instance.
+
+ - Deploy the workflow and start an instance, as well as the workers:
+```
+npm run rest:start
+```
+ or
+```
+npm run grpc:start
+```
+
 This starts a workflow instance with the `orderId` set to 345:
  ```typescript
-await zbc.createProcessInstance("test-messaging", {
+camunda
+  .createProcessInstance({
+    bpmnProcessId: "test-messaging",
+    variables: {
       orderId: "345",
       customerId: "110110",
-      paymentStatus: "unpaid"
-    })
+      paymentStatus: "unpaid",
+    },
+  })
+  .then((res) =>
+    camunda.log.info(`Created process instance ${res.processInstanceKey}`)
+  );
  ```
 
 Open Operate and inspect the processes, and you will see a process instance waiting at the message catch event.
 
  ![](../img/workflow-state.png)
 
-
-- Now start the workers:
+- Now send the message, in another terminal, using either publish or correlate:
 ```
-ts-node workers.ts
+npm run rest:publish-message
 ```
-
-- Now send the message, in another terminal:
+or
 ```
-ts-node send-message.ts
+npm run rest:correlate-message
+```
+or
+```
+npm run grpc:publish-message
 ```
 
 - Refresh Operate, and you see that the message has been correlated and the workflow has run to completion:
 ![](../img/completed.png)
 
-The "Message Subscriptions" tab now reports that the message was correlated:
+## correlateMessage vs publishMessage
 
-![](../img/correlated.png)
+Message correlation is a synchronous operation that returns the process id of the first process that the message is correlated with, or fails if no correlating message subscription is found. 
 
 ## Message Buffering
 
-Messages are buffered on the broker, so your external systems can emit messages before your process arrives at the catch event. The amount of time that a message is buffered is configured when publishing the message from the client library.
+Messages are buffered on the broker, so your external systems can emit messages before your process arrives at the catch event. The amount of time that a message is buffered is configured when publishing the message from the client library. 
 
 For example, to send a message that is buffered for 10 minutes with the JavaScript client:
 
